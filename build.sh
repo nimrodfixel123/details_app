@@ -9,7 +9,7 @@ docker build . -t details_app
 docker-compose up -d
 
 # Wait for 5 seconds, printing a message each second
-for i in {1..5}; do
+for i in {1..10}; do
     echo "Waiting for database to start... $i"
     sleep 1
 done
