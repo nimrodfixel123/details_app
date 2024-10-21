@@ -12,7 +12,7 @@ x-common-api-settings: &common-settings
         cpus: "1"
         memory: 512M
   ports:
-    - 8000:8000
+    - 8123:8123
   networks:
     - details
 

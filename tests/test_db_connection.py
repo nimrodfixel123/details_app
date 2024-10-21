@@ -4,7 +4,7 @@ import time
 import requests
 import subprocess
 
-APP_URL = 'http://localhost:8000/api/health_check'
+APP_URL = 'http://localhost:8123/api/health_check'
 DB_CONTAINER_NAME = 'postgres-container'
 
 def check_app_connection():

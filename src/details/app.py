@@ -8,7 +8,6 @@ from wtforms.validators import Email, DataRequired
 from flask_wtf import FlaskForm
 from sqlalchemy import text 
 
-# Fetch environment variables
 dbuser = os.getenv('POSTGRES_USER')
 dbpass = os.getenv('POSTGRES_PASSWORD')
 dbhost = os.getenv('DBHOST')
@@ -19,9 +18,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = skey
 if os.getenv('TEST_DB'):
     app.config['SECRET_KEY'] = 'sMAcUgw@*1J038*^UO3Fkpy4%Wil3M'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'  # Use in-memory SQLite for tests
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'  
 else:
-    # Your original PostgreSQL configuration (replace with actual connection string)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -58,7 +56,6 @@ def index():
             db.session.rollback()
             return render_template('index.html', form=form, contacts=Contacts.query.all(), error=str(e)), 400
          
-    # Fetch all contacts for rendering in the template
     contacts = Contacts.query.all()
     return render_template('index.html', form=form, contacts=contacts)
 
