@@ -39,7 +39,8 @@ services:
       - 5433:5432
     networks:
       - details
-    command: postgres -c 'listen_addresses=*'
+    command: >
+      /bin/sh -c "chown -R postgres:postgres /var/lib/postgresql/data && postgres -c 'listen_addresses=*'"
 
 networks:
   details:
