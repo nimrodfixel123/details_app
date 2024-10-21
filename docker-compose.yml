@@ -1,0 +1,98 @@
+x-common-api-settings: &common-settings
+  image: details_app
+  environment:
+    - POSTGRES_PASSWORD=pgadmin
+    - POSTGRES_USER=pgadmin
+    - DBHOST=postgres-container
+    - DBNAME=postgres
+    - SECRET_KEY=bKw%TW6XqRaHgTHnQ6*ZCYfwwQY1jG
+  deploy:
+    resources:
+      limits:
+        cpus: "1"
+        memory: 512M
+  ports:
+    - 8000:8000
+  networks:
+    - details
+
+services:
+  api-details:
+    depends_on: 
+      - postgresql
+    container_name: api_details
+    <<: *common-settings
+
+
+  postgresql:
+    image: postgres
+    container_name: postgres-container
+    volumes:
+      - ./pgsql/data:/var/lib/postgresql/data
+      - ./pgsql/pg_hba.conf:/etc/postgresql/pg_hba.conf 
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pgadmin
+      POSTGRES_USER: pgadmin
+      POSTGRES_DB: postgres
+    ports:
+      - 5433:5432
+    networks:
+      - details
+    command: postgres -c 'listen_addresses=*'
+
+networks:
+  details:
+    name: details
+    driver: bridge
+
+# x-common-api-settings: &common-settings
+#   image: details_app
+#   environment:
+#     - POSTGRES_PASSWORD=pgadmin
+#     - POSTGRES_USER=pgadmin
+#     - DBHOST=postgres-container
+#     - DBNAME=postgres
+#     - SECRET_KEY=bKw%TW6XqRaHgTHnQ6*ZCYfwwQY1jG
+#   deploy:
+#     resources:
+#       limits:
+#         cpus: "1"
+#         memory: 512M
+#   ports:
+#     - 8000:8000
+#   networks:
+#     - details
+
+# services:
+#   api-details:
+#     depends_on:
+#       - postgresql
+#     container_name: api_details
+#     <<: *common-settings
+#     build: .  # Specify the current directory as the build context
+#     command: >
+#       /bin/sh -c "
+#       python3 /app/pgsql/init_db.py && 
+#       gunicorn -c gunicorn_conf.py details:app
+#       "
+
+#   postgresql:
+#     image: postgres
+#     container_name: postgres-container
+#     volumes:
+#       - ./pgsql/data:/var/lib/postgresql/data
+#     restart: always
+#     environment:
+#       POSTGRES_PASSWORD: pgadmin
+#       POSTGRES_USER: pgadmin
+#       POSTGRES_DB: postgres
+#     ports:
+#       - 5433:5432
+#     networks:
+#       - details
+
+# networks:
+#   details:
+#     name: details
+#     driver: bridge
