@@ -64,7 +64,7 @@ The test file `test_db_connection.py` is located under the `tests` directory. Th
 ## Usage Instructions
 1. Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/nimrodfixel123/details_app.git
     ```
 
 2. Navigate to the project directory:
